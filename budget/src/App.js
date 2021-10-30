@@ -4,19 +4,32 @@ import Transaction from './components/Transaction';
 import {TRANSACTION_DATA, PLACE_DATA} from './mock-data';
 import {useState} from 'react';
 import Places from "./components/Places";
+import AddTransactionForm from './components/AddTransactionForm';
 
 function App() {
   const  [places, setPlaces] = useState(PLACE_DATA);
+  const  [transactions, setTransactions] = useState(TRANSACTION_DATA);
   const ratePlace = (id, rating) => {
     const newPlaces = places.map((p) => (p.id === id ? {...p, rating } : p))
     setPlaces(newPlaces);
   };
 
-  // Oefening: voeg een remove knop toe
+  const createTransaction = (user, place, amount, date) => {
+    const newTransactions = [
+      {
+        user, place, amount, date: new Date(date)
+      },
+      ...transactions
+    ];
+    setTransactions(newTransactions);
+    console.log("transactions", JSON.stringify(transactions));
+    console.log("newtransactions", JSON.stringify(newTransactions));
+  }
 
   return (
     <div className="App">
-      {TRANSACTION_DATA.map((trans, index) => <Transaction {...trans } key={index}/>)}
+      <AddTransactionForm places={places} onSaveTransaction={createTransaction} />
+      {transactions.map((trans, index) => <Transaction {...trans } key={index}/>)}
       <Places places={places} onRate={ratePlace}/>
     </div>
   );
