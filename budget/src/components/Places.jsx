@@ -1,5 +1,5 @@
 import StarRating  from "./StarRating";
-
+import React from "react";
 
 const Place = ({id, name, rating, onRate}) => {
     return (
@@ -11,7 +11,8 @@ const Place = ({id, name, rating, onRate}) => {
 }
 
 
-const Places = ({ places=[], onRate }) => {
+const Places = React.memo(({ places=[], onRate }) => {
+    console.log("Render places")
     return (
         <div>
             {places.sort((a, b) => {
@@ -19,6 +20,6 @@ const Places = ({ places=[], onRate }) => {
             }).map((p) => <Place key={p.id} {...p} onRate={onRate}/>)}
         </div>
     );
-};
+});
 
 export default Places;

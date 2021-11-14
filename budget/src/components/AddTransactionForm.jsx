@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 
 export default function AddTransactionForm( { places, onSaveTransaction = (f) => {} } ) {
@@ -30,6 +30,17 @@ export default function AddTransactionForm( { places, onSaveTransaction = (f) =>
         setAmount(0);
     }
 
+
+    console.log("Before useEffect");
+    useEffect(() => {
+        console.log(`user ${user} at ${place} : ${amount}`);
+        return () => {
+            console.log("after unmounting");
+        };
+    }, [amount, place, user]);
+    console.log("After useEffect");
+
+    console.log("before rendering");
     return( 
         <form className="m-5" onSubmit={handleSubmit}>
             <div className="grid grid-cols-6 gap-6">
@@ -87,4 +98,5 @@ export default function AddTransactionForm( { places, onSaveTransaction = (f) =>
             </div>
         </form>
     )
+    console.log("after rendering");
 }
