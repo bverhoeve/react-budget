@@ -10,47 +10,48 @@ export default function AddTransactionForm( { places, onSaveTransaction = (f) =>
         reset();
     }
 
+    const LabelInput = ({label, type, defaultValue, validation, ...rest}) => {
+        return (
+            <div className="col-span-6 sm:col-span-3">
+                <label htmlFor={label}>{label}</label>
+                <input 
+                {...register(label, validation)}
+                type={type}
+                placholder={label}
+                name={label}
+                id={label}
+                defaultValue={defaultValue}
+                {...rest}
+                />
+                {errors[label] && <p className="text-red-500">{errors[label].message}</p>}
+            </div>
+        );
+    }
+
     return(
         <>
         <form className="m-5" onSubmit={handleSubmit(onSubmit)}>
+
+            <LabelInput 
+                label="user" 
+                type="text" 
+                defaultValue="" 
+                validation={{
+                    required: 'User is required',
+                    minLength: {
+                        value: 2, message: 'User should be at least two characters'
+                    }
+                }}
+            />
+
+            <LabelInput 
+                label="date" 
+                type="date"
+                validation={{
+                    required: 'Date is required'
+                }}
+            />
         
-            <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6 sm:col-span-3">
-                    <label htmlFor="user">who</label>
-                    <input 
-                    type="text"
-                    placholder="user"
-                    name="user"
-                    defaultValue=""
-                    {...register(
-                        'user',
-                        {
-                            required: 'User is required',
-                            minLength: {
-                                value: 2, message: 'User should be at least two characters'
-                            }
-                        }
-                    )}
-                    />
-                    
-                </div>
-            </div>
-            {errors?.user?.message && (
-                <div>
-                    {errors.user.message}
-                </div>
-            )}
-            
-            <div className="col-span-6 sm:col-span-3">
-                <label htmlFor="date">when</label>
-                <input 
-                type="date" 
-                placeholder="date" 
-                name="date" 
-                id="date" 
-                {...register('date')}
-                />
-            </div>
 
             <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="place"> where</label>
@@ -67,7 +68,7 @@ export default function AddTransactionForm( { places, onSaveTransaction = (f) =>
                     ))}
                 </select>    
             </div>
-
+            
             <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="amount">amount</label>
                 <input 
